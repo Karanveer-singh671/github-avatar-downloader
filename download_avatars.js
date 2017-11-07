@@ -43,8 +43,8 @@ function downloadImageByUrl(url, filePath){
 getRepoContributors(repoOwner, repoName, function(err, contributors) {
   console.log("Errors:", err);
   contributors.forEach(function(contributor) {
-    var filePath = './future.jpg'
-    var url = 'https://sytantris.github.io/http-examples/future.jpg'
+    var filePath = 'avatars/' + contributor.login + '.jpg'
+    var url = contributor.avatar_url;
     //  contributor.avatar_url + contributor.login + '.jpg'
     downloadImageByUrl(url, filePath);
   })
@@ -52,8 +52,5 @@ getRepoContributors(repoOwner, repoName, function(err, contributors) {
 
 
 
-
-
-downloadImageByUrl("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg")
 
 
