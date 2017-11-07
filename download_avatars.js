@@ -10,20 +10,28 @@ function getRepoContributors(repoOwner, repoName, cb) {
     headers: {
       'User-Agent': 'request',
       'Authorization': 'token ' + secret.GITHUB_TOKEN
-    }
+    },
+     json: true
   };
 
   console.log("optinos", options);
 
   request(options, function(err, res, body) {
     cb(err, body);
+
+
+
+    console.log(cb(body.avatar_url))
   });
 }
 
 
 
 
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors("jquery", "jquery", function(err, contributors) {
   console.log("Errors:", err);
-  console.log("Result:", result);
+  contributors.forEach(function(contributor){
+    console.log(contributor.avatar_url);
+  })
+
 });
