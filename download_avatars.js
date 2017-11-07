@@ -7,6 +7,14 @@ var repoName = process.argv[3];
 
 
 
+// mkdir handles error if exist
+const mkdirSync = function (dirPath) {
+  try {
+    fs.mkdirSync(dirPath)
+  } catch (err) {
+    if (err.code !== 'EEXIST') throw err
+  }
+}
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 
