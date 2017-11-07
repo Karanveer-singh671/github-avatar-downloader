@@ -1,5 +1,11 @@
 var request = require('request');
 var secret = require('./secret');
+var fs = require('fs');
+
+var repoOwner = process.argv[2];
+var repoName = process.argv[3];
+
+
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
@@ -11,27 +17,43 @@ function getRepoContributors(repoOwner, repoName, cb) {
       'User-Agent': 'request',
       'Authorization': 'token ' + secret.GITHUB_TOKEN
     },
-     json: true
+    json: true
   };
 
-  console.log("optinos", options);
+  // console.log("optinos", options);
 
   request(options, function(err, res, body) {
     cb(err, body);
-
-
-
-    console.log(cb(body.avatar_url))
   });
 }
 
+function downloadImageByUrl(url, filePath){
+  request.get(url)
+       .on('error', function (err) {
+         throw console.log('rip', err);
+       })
+       .on('response', function (response) {
+         console.log('Response Status Code: ', response.statusCode);
+       })
+       .pipe(fs.createWriteStream(filePath));
+
+}
 
 
-
-getRepoContributors("jquery", "jquery", function(err, contributors) {
+getRepoContributors(repoOwner, repoName, function(err, contributors) {
   console.log("Errors:", err);
-  contributors.forEach(function(contributor){
-    console.log(contributor.avatar_url);
+  contributors.forEach(function(contributor) {
+    var filePath = './future.jpg'
+    var url = 'https://sytantris.github.io/http-examples/future.jpg'
+    //  contributor.avatar_url + contributor.login + '.jpg'
+    downloadImageByUrl(url, filePath);
   })
-
 });
+
+
+
+
+
+downloadImageByUrl("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg")
+
+
